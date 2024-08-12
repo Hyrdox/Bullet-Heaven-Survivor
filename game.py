@@ -5,6 +5,7 @@ import pygame
 import random
 import math
 import menu
+import game_over
 
 
 # Inicjalizacja Pygame
@@ -197,12 +198,6 @@ enemies = pygame.sprite.Group()
 bullets = pygame.sprite.Group()
 boosts = pygame.sprite.Group()
 
-# Inicjalizacja gracza
-base_player_damage = 10
-base_player_max_health = 100
-player = Player(base_player_damage, base_player_max_health)
-all_sprites.add(player)
-
 # Kamera
 camera = pygame.Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
@@ -275,16 +270,18 @@ def draw_text(text, font, color, surface, x, y):
     surface.blit(textobj, textrect)
 
 def pause_game():
-    font_button = pygame.font.Font(None, 50)
+    font_button = pygame.font.Font('8514fixe.fon', 50)
     paused = True
 
     while paused:
         screen.fill(BLACK)  # Możesz dodać przezroczystość zamiast czarnego tła dla efektu zamrożenia
         draw_text('Paused', font_button, WHITE, screen, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 4)
+        draw_text('Enemies are frozen, time is NOT', font_button, GREY, screen, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 4 + 40)
+
 
         # Definicja przycisków
-        button_continue = pygame.Rect(SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2 - 50, 200, 50)
-        button_menu = pygame.Rect(SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2 + 20, 200, 50)
+        button_continue = pygame.Rect(SCREEN_WIDTH // 2 - 125, SCREEN_HEIGHT // 2 - 50, 250, 50)
+        button_menu = pygame.Rect(SCREEN_WIDTH // 2 - 125, SCREEN_HEIGHT // 2 + 20, 250, 50)
 
         pygame.draw.rect(screen, GREY, button_continue)
         pygame.draw.rect(screen, GREY, button_menu)
@@ -307,9 +304,6 @@ def pause_game():
 
         pygame.display.flip()
 
-# Zmienna do śledzenia stanu lewego przycisku myszy
-left_mouse_button_down = False
-
 # Zmienna do śledzenia czasu ostatniego strzału
 last_shot_time = 0
 
@@ -331,6 +325,18 @@ def main_game():
     waiting_for_next_wave = True
     wave_start_ticks = pygame.time.get_ticks()
     game_start_time = None
+    left_mouse_button_down = False
+
+    all_sprites.empty()
+    enemies.empty()
+    bullets.empty()
+    boosts.empty()
+
+    # Inicjalizacja gracza
+    base_player_damage = 10
+    base_player_max_health = 100
+    player = Player(base_player_damage, base_player_max_health)
+    all_sprites.add(player)
 
     while running:
         current_time = time.time()  # Bieżący czas
@@ -484,13 +490,14 @@ def main_game():
 
             # Sprawdzanie, czy gracz umarł
             if player.health <= 0:
+                player.kill()
                 print("Game Over! Final score:", kills_count)
                 running = False
+                game_over.game_over(kills_count, wave_number, f"{elapsed_time // 60}:{elapsed_time % 60:02d}", )
 
             # Aktualizacja ekranu
             pygame.display.flip()
             pygame.time.Clock().tick(60)
-
     pygame.quit()
 
 if __name__ == "__main__":

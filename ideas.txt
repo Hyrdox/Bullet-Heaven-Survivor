@@ -1,8 +1,0 @@
-Więcej typów broni
-Budowanie
-
-
-Zmieńmy drop z bossów:
- 80% na miksturę leczenia
- 10% na wzmocnienie obrażeń
- 10% na wzmocnienie HP
