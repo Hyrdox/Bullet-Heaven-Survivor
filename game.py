@@ -25,10 +25,12 @@ camera = pygame.Rect(0, 0, settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
 # Część ustawień gry
 shot_interval = settings.shot_interval
 boss_message_duration = settings.boss_message_duration
+boss_message_start_time = None
 
 
 # Główna pętla gry
 def start():
+    global boss_message_start_time
     elapsed_time = None
     wave_number = 1
     kills_count = 0
@@ -189,7 +191,7 @@ def start():
                     settings.screen.fill(settings.BLACK, (0, 100, settings.SCREEN_WIDTH, 50))  # Czarne tło dla tekstu
                     current_time = pygame.time.get_ticks()
                     if current_time % 1000 < 300:  # Miganie tekstu
-                        boss_text = pygame.font.Font(None, 40).render("BOSS INCOMING!", True, settings.RED)
+                        boss_text = pygame.font.Font(None, 44).render("BOSS INCOMING!", True, settings.RED)
                         settings.screen.blit(boss_text, (settings.SCREEN_WIDTH // 2 - boss_text.get_width() // 2, 110))
                 else:
                     boss_message_start_time = None  # Zresetuj komunikat po upływie czasu
@@ -253,6 +255,7 @@ def draw_enemy_health_bar(enemy):
 
 # Funkcja generująca falę przeciwników
 def generate_wave(wave_number, health):
+    global boss_message_start_time
     num_enemies = wave_number * 2
     if wave_number % 5 == 0:
         num_enemies += wave_number // 5  # Dodanie BOSSów

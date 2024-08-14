@@ -23,8 +23,8 @@ def top_scores():
 
         # Obliczenie szerokości najdłuższego tekstu dla wyrównania do lewej
         max_width = max(
-            font_score.size(f"{i}. {nick} - {kills} kills, wave {wave} ({minutes:02d}:{seconds:02d})")[0] for i, (nick, kills, wave, minutes, seconds) in
-            enumerate(scores, start=1))
+            font_score.size(f"{i}. {nick} - {kills} kills, wave {wave} ({minutes:02d}:{seconds:02d})")[0] for
+            i, (nick, kills, wave, minutes, seconds) in enumerate(scores, start=1))
 
         # Pozycja X dla wyrównania listy do lewej, ale na środku ekranu
         x_position = (settings.SCREEN_WIDTH - max_width) // 2
