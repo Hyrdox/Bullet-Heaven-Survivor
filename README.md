@@ -50,6 +50,6 @@ pip install pygame
 ## How to Run
 To start the game, simply execute the Python script:
 ```bash
-python menu.py
+python main_menu.py
 ```
 Make sure you are in the project directory when running this command.

@@ -1,0 +1,132 @@
+import pygame
+import sys
+import settings
+import game
+from main_menu import draw_text, main_menu
+from top_scores import load_scores, update_scores
+
+
+def show(kills, wave, minutes, seconds):
+    font_title = pygame.font.Font('8514fixe.fon', 74)
+    font_text = pygame.font.Font('8514fixe.fon', 40)
+    font_button = pygame.font.Font('8514fixe.fon', 50)
+
+    scores = load_scores()
+    is_top_ten = True if kills > scores[-1][2] else True if len(scores) < 10 else False
+
+    if not is_top_ten:
+        while True:
+            settings.screen.fill(settings.BLACK)
+            draw_text('You died.', font_title, settings.RED, settings.screen, settings.SCREEN_WIDTH // 2,
+                      settings.SCREEN_HEIGHT // 8)
+            draw_text(f'Kills: {kills}', font_text, settings.WHITE, settings.screen, settings.SCREEN_WIDTH // 2,
+                      settings.SCREEN_HEIGHT // 6 + 80)
+            draw_text(f'Wave: {wave}', font_text, settings.WHITE, settings.screen, settings.SCREEN_WIDTH // 2,
+                      settings.SCREEN_HEIGHT // 6 + 140)
+            draw_text(f'Time: {minutes:02d}:{seconds:02d}', font_text, settings.WHITE, settings.screen,
+                      settings.SCREEN_WIDTH // 2, settings.SCREEN_HEIGHT // 6 + 200)
+            draw_text("That's not enough for TOP 10.", font_text, settings.WHITE, settings.screen,
+                      settings.SCREEN_WIDTH // 2, settings.SCREEN_HEIGHT // 6 + 260)
+            draw_text("Your score will not be saved. Try again.", font_text, settings.WHITE, settings.screen,
+                      settings.SCREEN_WIDTH // 2, settings.SCREEN_HEIGHT // 6 + 320)
+
+            # Przycisk "Try again"
+            button_try_again = pygame.Rect(settings.SCREEN_WIDTH // 2 - 350, settings.SCREEN_HEIGHT - 80, 300, 50)
+            pygame.draw.rect(settings.screen, settings.GREY, button_try_again)
+            draw_text('Try again', font_button, settings.WHITE, settings.screen, settings.SCREEN_WIDTH // 2 - 200,
+                      settings.SCREEN_HEIGHT - 55)
+
+            # Przycisk "Main menu"
+            button_main_menu = pygame.Rect(settings.SCREEN_WIDTH // 2 + 50, settings.SCREEN_HEIGHT - 80, 300, 50)
+            pygame.draw.rect(settings.screen, settings.GREY, button_main_menu)
+            draw_text('Main menu', font_button, settings.WHITE, settings.screen, settings.SCREEN_WIDTH // 2 + 200,
+                      settings.SCREEN_HEIGHT - 55)
+
+            # Obsługa zdarzeń
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if button_try_again.collidepoint(event.pos):
+                        game.start()
+                    if button_main_menu.collidepoint(event.pos):
+                        main_menu()
+
+            pygame.display.flip()
+    else:
+        font_input = pygame.font.Font('8514fixe.fon', 50)
+        nickname = ""
+
+        # Obliczanie zajętego przez gracza miejsca
+        placement = 1
+        for score in scores:
+            print(minutes + seconds)
+            print(score[3] * 60 + score[4])
+            if kills > score[1]:
+                break
+            elif kills == score[1]:
+                if minutes * 60 + seconds > score[3] * 60 + score[4]:
+                    placement += 1
+                else:
+                    break
+            else:
+                placement += 1
+
+        while True:
+            settings.screen.fill(settings.BLACK)
+            draw_text(f'You reached the TOP {placement}!', font_title, settings.RED, settings.screen,
+                      settings.SCREEN_WIDTH // 2,
+                      settings.SCREEN_HEIGHT // 8)
+            draw_text(f'Kills: {kills}', font_text, settings.WHITE, settings.screen, settings.SCREEN_WIDTH // 2,
+                      settings.SCREEN_HEIGHT // 6 + 80)
+            draw_text(f'Wave: {wave}', font_text, settings.WHITE, settings.screen, settings.SCREEN_WIDTH // 2,
+                      settings.SCREEN_HEIGHT // 6 + 140)
+            draw_text(f'Time: {minutes:02d}:{seconds:02d}', font_text, settings.WHITE, settings.screen,
+                      settings.SCREEN_WIDTH // 2, settings.SCREEN_HEIGHT // 6 + 200)
+            draw_text('Enter your name:', font_text, settings.WHITE, settings.screen, settings.SCREEN_WIDTH // 2,
+                      settings.SCREEN_HEIGHT // 6 + 260)
+
+            # Pole tekstowe dla nicku
+            input_box = pygame.Rect(settings.SCREEN_WIDTH // 2 - 150, settings.SCREEN_HEIGHT // 6 + 320, 300, 50)
+            pygame.draw.rect(settings.screen, settings.GREY, input_box)
+            draw_text(nickname, font_input, settings.WHITE, settings.screen, settings.SCREEN_WIDTH // 2,
+                      settings.SCREEN_HEIGHT // 6 + 345)
+
+            # Przycisk "Submit"
+            button_submit = pygame.Rect(settings.SCREEN_WIDTH // 2 - 150, settings.SCREEN_HEIGHT - 80, 300, 50)
+            pygame.draw.rect(settings.screen, settings.GREY, button_submit)
+            draw_text('Submit', font_button, settings.WHITE, settings.screen, settings.SCREEN_WIDTH // 2,
+                      settings.SCREEN_HEIGHT - 55)
+
+            # Obsługa zdarzeń
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_BACKSPACE:
+                        nickname = nickname[:-1]
+                    elif event.key == pygame.K_RETURN:
+                        save_score(nickname, kills, wave, minutes, seconds)
+                        main_menu()
+                    else:
+                        nickname += event.unicode
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if button_submit.collidepoint(event.pos):
+                        save_score(nickname, kills, wave, minutes, seconds)
+                        main_menu()
+
+            pygame.display.flip()
+
+
+def save_score(nickname, kills, wave, minutes, seconds):
+    scores = load_scores()  # Funkcja, która ładuje obecne wyniki
+    scores.append((nickname, kills, wave, minutes, seconds))
+    scores = sorted(scores, key=lambda x: (-x[1], x[3] * 60 + x[4]))  # Sortowanie po kills, a potem po czasie
+    scores = scores[:10]  # Trzymamy tylko TOP 10
+    update_scores(scores)
+
+
+if __name__ == "__main__":
+    pygame.init()
