@@ -5,7 +5,7 @@ from main_menu import draw_text, main_menu
 
 
 def show():
-    font_button = pygame.font.Font('8514fixe.fon', 50)
+    font_button = pygame.font.Font('data/8514fixe.fon', 50)
     paused = True
 
     while paused:

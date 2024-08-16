@@ -2,17 +2,15 @@ import pygame
 import sys
 import settings
 import main_menu
-
-scores = [("AAA", 40, 6, 1, 30), ("BBB", 30, 6, 1, 15), ("CCC", 20, 5, 1, 0)]
+from database import get_scores, reformat_data
 
 
 def top_scores():
-    global scores
-    font_title = pygame.font.Font('8514fixe.fon', 74)
-    font_score = pygame.font.Font('8514fixe.fon', 40)
-    font_button = pygame.font.Font('8514fixe.fon', 50)
+    font_title = pygame.font.Font('data/8514fixe.fon', 74)
+    font_score = pygame.font.Font('data/8514fixe.fon', 40)
+    font_button = pygame.font.Font('data/8514fixe.fon', 50)
 
-    scores = load_scores()
+    scores = reformat_data(get_scores())
 
     while True:
         settings.screen.fill(settings.BLACK)
@@ -51,15 +49,6 @@ def top_scores():
                     return  # Powrót do menu głównego
 
         pygame.display.flip()
-
-
-def load_scores():
-    return scores
-
-
-def update_scores(new_scores):
-    global scores
-    scores = new_scores
 
 
 if __name__ == "__main__":

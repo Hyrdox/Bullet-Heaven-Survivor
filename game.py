@@ -150,7 +150,7 @@ def start():
             pygame.draw.rect(settings.screen, settings.BLACK, (10, settings.SCREEN_HEIGHT - 60, 50 * 2, 20), 2)
             pygame.draw.rect(settings.screen, settings.PURPLE,
                              (12, settings.SCREEN_HEIGHT - 58, player.damage * 1.96, 16))
-            damage_text = pygame.font.Font('8514fixe.fon', 26).render(f"{player.damage} DMG", True, settings.BLACK)
+            damage_text = pygame.font.Font('data/8514fixe.fon', 26).render(f"{player.damage} DMG", True, settings.BLACK)
             settings.screen.blit(damage_text, (60 - damage_text.get_width() // 2, settings.SCREEN_HEIGHT - 60))
 
             # Pasek zdrowia gracza
@@ -158,13 +158,13 @@ def start():
                              (10, settings.SCREEN_HEIGHT - 30, player.max_health * 2, 20), 2)
             pygame.draw.rect(settings.screen, settings.GREEN,
                              (12, settings.SCREEN_HEIGHT - 28, player.health * 1.96, 16))
-            health_text = pygame.font.Font('8514fixe.fon', 26).render(f"{player.health}/{player.max_health} HP", True,
-                                                                      settings.BLACK)
+            health_text = pygame.font.Font('data/8514fixe.fon', 26).render(f"{player.health}/{player.max_health} HP", True,
+                                                                           settings.BLACK)
             settings.screen.blit(health_text,
                                  ((player.max_health + 10) - health_text.get_width() // 2, settings.SCREEN_HEIGHT - 30))
 
             # Wyświetlanie informacji o fali i odliczaniu do następnej
-            font = pygame.font.Font('8514fixe.fon', 36)
+            font = pygame.font.Font('data/8514fixe.fon', 36)
             wave_text = font.render((f"Wave {wave_number}" if game_start_time else f"Game") + (
                 f" starting in {float('{:.1f}'.format((5050 - (pygame.time.get_ticks() - wave_start_ticks)) / 1000))}"
                 if waiting_for_next_wave else ""), True, settings.WHITE)
@@ -214,7 +214,6 @@ def start():
             # Sprawdzanie, czy gracz umarł
             if player.health <= 0:
                 player.kill()
-                print("Game Over! Final score:", kills_count)
                 running = False
                 death_screen.show(kills_count, wave_number, elapsed_time // 60, elapsed_time % 60)
 

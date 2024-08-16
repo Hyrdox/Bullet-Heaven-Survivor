@@ -3,16 +3,16 @@ import sys
 import settings
 import game
 from main_menu import draw_text, main_menu
-from top_scores import load_scores, update_scores
+from database import get_scores, send_score, reformat_data
 
 
 def show(kills, wave, minutes, seconds):
-    font_title = pygame.font.Font('8514fixe.fon', 74)
-    font_text = pygame.font.Font('8514fixe.fon', 40)
-    font_button = pygame.font.Font('8514fixe.fon', 50)
+    font_title = pygame.font.Font('data/8514fixe.fon', 74)
+    font_text = pygame.font.Font('data/8514fixe.fon', 40)
+    font_button = pygame.font.Font('data/8514fixe.fon', 50)
 
-    scores = load_scores()
-    is_top_ten = True if kills > scores[-1][2] else True if len(scores) < 10 else False
+    scores = reformat_data(get_scores())
+    is_top_ten = True if kills > scores[-1][1] else True if len(scores) < 10 else False
 
     if not is_top_ten:
         while True:
@@ -55,14 +55,12 @@ def show(kills, wave, minutes, seconds):
 
             pygame.display.flip()
     else:
-        font_input = pygame.font.Font('8514fixe.fon', 50)
+        font_input = pygame.font.Font('data/8514fixe.fon', 50)
         nickname = ""
 
         # Obliczanie zajętego przez gracza miejsca
         placement = 1
         for score in scores:
-            print(minutes + seconds)
-            print(score[3] * 60 + score[4])
             if kills > score[1]:
                 break
             elif kills == score[1]:
@@ -72,6 +70,7 @@ def show(kills, wave, minutes, seconds):
                     break
             else:
                 placement += 1
+
 
         while True:
             settings.screen.fill(settings.BLACK)
@@ -108,24 +107,16 @@ def show(kills, wave, minutes, seconds):
                     if event.key == pygame.K_BACKSPACE:
                         nickname = nickname[:-1]
                     elif event.key == pygame.K_RETURN:
-                        save_score(nickname, kills, wave, minutes, seconds)
+                        send_score(nickname, kills, wave, minutes, seconds)
                         main_menu()
                     else:
                         nickname += event.unicode
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if button_submit.collidepoint(event.pos):
-                        save_score(nickname, kills, wave, minutes, seconds)
+                        send_score(nickname, kills, wave, minutes, seconds)
                         main_menu()
 
             pygame.display.flip()
-
-
-def save_score(nickname, kills, wave, minutes, seconds):
-    scores = load_scores()  # Funkcja, która ładuje obecne wyniki
-    scores.append((nickname, kills, wave, minutes, seconds))
-    scores = sorted(scores, key=lambda x: (-x[1], x[3] * 60 + x[4]))  # Sortowanie po kills, a potem po czasie
-    scores = scores[:10]  # Trzymamy tylko TOP 10
-    update_scores(scores)
 
 
 if __name__ == "__main__":

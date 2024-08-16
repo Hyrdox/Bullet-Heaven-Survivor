@@ -6,8 +6,8 @@ import top_scores
 
 
 def main_menu():
-    font_title = pygame.font.Font('8514fixe.fon', 74)
-    font_button = pygame.font.Font('8514fixe.fon', 50)
+    font_title = pygame.font.Font('data/8514fixe.fon', 74)
+    font_button = pygame.font.Font('data/8514fixe.fon', 50)
 
     while True:
         settings.screen.fill(settings.BLACK)
