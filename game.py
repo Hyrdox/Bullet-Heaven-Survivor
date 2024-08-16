@@ -106,7 +106,7 @@ def start():
                     if hit_enemy.health <= 0:
                         # Jeśli zabiliśmy bossa, wypada losowy przedmiot
                         if hit_enemy.color == settings.BLACK:
-                            boost_type = random.choice(['potion', 'damage', 'health'])
+                            boost_type = random.choices(['potion', 'damage', 'health'], [0.9, 0.05, 0.05])
                             if boost_type == 'potion':
                                 potion = HealthPotion(hit_enemy.rect.centerx, hit_enemy.rect.centery)
                                 all_sprites.add(potion)
