@@ -1,4 +1,6 @@
 import pygame
+import os
+import requests
 import sys
 import settings
 import game
@@ -61,4 +63,12 @@ def draw_text(text, font, color, surface, x, y, align="center"):
 
 if __name__ == "__main__":
     pygame.init()
+
+    if not os.path.exists('data'):
+        os.makedirs('data')
+    filename = os.path.join('data', '8514fixe.fon')
+    response = requests.get(settings.font_url)
+    with open(filename, 'wb') as f:
+        f.write(response.content)
+
     main_menu()

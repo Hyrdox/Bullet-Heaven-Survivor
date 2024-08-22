@@ -1,12 +1,19 @@
 import pygame
+import requests
+import io
 
 # Ustawienia ekranu
 SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Bullet Heaven Survivor")
-programIcon = pygame.image.load('data/icon.webp')
+
+# Ikona gry
+icon_url = "https://firebasestorage.googleapis.com/v0/b/bullet-heaven-survivor.appspot.com/o/icon.webp?alt=media&token=646bdbfe-d02b-4edc-bab3-50719ff1599f"
+programIcon = pygame.image.load(io.BytesIO(requests.get(icon_url).content))
 pygame.display.set_icon(programIcon)
 
+# Czcionka
+font_url = "https://firebasestorage.googleapis.com/v0/b/bullet-heaven-survivor.appspot.com/o/8514fixe.fon?alt=media&token=920e5652-681a-419f-934e-34a1a869348d"
 font = 'data/8514fixe.fon'
 
 # Ustawienia mapy
