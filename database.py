@@ -47,7 +47,6 @@ def send_score(nickname, kills, wave, minutes, seconds):
         })
 
 
-
 def reformat_data(db_scores):
     scores = []
     for score in db_scores:
