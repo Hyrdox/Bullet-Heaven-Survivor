@@ -37,9 +37,7 @@ def send_score(nickname, kills, wave, minutes, seconds):
 
     sorted_scores = sorted(all_scores, key=lambda x: (-x[1], x[3]*60 + x[4]))
 
-    for i in range(10):
-        if len(sorted_scores) == i:
-            break
+    for i in range(len(sorted_scores)):
         db.collection(scores_collection).document(str(i+1)).set({
             'nickname': sorted_scores[i][0],
             'kills': sorted_scores[i][1],
