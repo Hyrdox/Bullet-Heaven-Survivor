@@ -30,37 +30,21 @@ def get_scores():
 
 def send_score(nickname, kills, wave, minutes, seconds):
     top_scores = get_scores()
-    placement = len(top_scores) + 1 if len(top_scores) < 10 else None
+    all_scores = []
+    for score in top_scores:
+        all_scores.append((score.get('nickname'), score.get('kills'), score.get('wave'), score.get('minutes'), score.get('seconds')))
+    all_scores.append((nickname, kills, wave, minutes, seconds))
 
-    # Obliczanie miejsce które zajmie gracz
-    for i in reversed(range(len(top_scores))):
-        if kills > top_scores[i].get('kills'):
-            placement = int(top_scores[i].get('id'))
-        elif kills == top_scores[i].get('kills'):
-            if minutes * 60 + seconds < top_scores[i].get('minutes') * 60 + top_scores[i].get('seconds'):
-                placement = int(top_scores[i].get('id'))
+    sorted_scores = sorted(all_scores, key=lambda x: (-x[1], x[3]*60 + x[4]))
 
-    # Przesuwanie wyników tak, aby zrobić miejsce dla nowego gracza nie tracąc przy tym pozostałych wyników
-    if placement < 10:
-        for i in reversed(range(len(top_scores))):
-            db.collection(scores_collection).document(str(int(top_scores[i].get('id')) + 1)).set({
-                'nickname': top_scores[i].get('nickname'),
-                'kills': top_scores[i].get('kills'),
-                'wave': top_scores[i].get('wave'),
-                'minutes': top_scores[i].get('minutes'),
-                'seconds': top_scores[i].get('seconds')
-            })
-            if int(top_scores[i].get('id')) == placement:
-                break
-
-    # Wstawienie wyników w odpowiednie miejsce
-    db.collection(scores_collection).document(str(placement)).set({
-        'nickname': nickname,
-        'kills': kills,
-        'wave': wave,
-        'minutes': minutes,
-        'seconds': seconds
-    })
+    for i in range(10):
+        db.collection(scores_collection).document(str(i+1)).set({
+            'nickname': sorted_scores[i][0],
+            'kills': sorted_scores[i][1],
+            'wave': sorted_scores[i][2],
+            'minutes': sorted_scores[i][3],
+            'seconds': sorted_scores[i][4]
+        })
 
 
 def reformat_data(db_scores):

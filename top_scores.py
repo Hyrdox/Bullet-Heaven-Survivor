@@ -20,7 +20,7 @@ def top_scores():
                             settings.SCREEN_HEIGHT // 9)
 
         # Obliczenie szerokości najdłuższego tekstu dla wyrównania do lewej
-        max_width = max(
+        max_width = 0 if len(scores) == 0 else max(
             font_score.size(f"{i}. {nick} - {kills} kills, wave {wave} ({minutes:02d}:{seconds:02d})")[0] for
             i, (nick, kills, wave, minutes, seconds) in enumerate(scores, start=1))
 

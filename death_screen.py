@@ -12,7 +12,10 @@ def show(kills, wave, minutes, seconds):
     font_button = pygame.font.Font('data/8514fixe.fon', 50)
 
     scores = reformat_data(get_scores())
-    is_top_ten = True if kills > scores[-1][1] else True if len(scores) < 10 else False
+    if len(scores) != 0:
+        is_top_ten = True if kills > scores[-1][1] else True if len(scores) < 10 else False
+    else:
+        is_top_ten = True
 
     if not is_top_ten:
         while True:

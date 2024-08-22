@@ -4,7 +4,7 @@ import settings
 
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, x, y, health, is_boss=False):
+    def __init__(self, x, y, health, speed_change, is_boss=False):
         super().__init__()
         self.image = pygame.Surface((50, 50) if not is_boss else (60, 60), pygame.SRCALPHA)
         self.color = settings.BLACK if is_boss else settings.RED
@@ -14,7 +14,8 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        self.speed = settings.boss_speed if is_boss else settings.enemy_speed
+        self.speed_change = speed_change
+        self.speed = self.speed_change + (settings.boss_speed if is_boss else settings.enemy_speed)
         self.max_health = health
         self.health = self.max_health
         self.damage = settings.enemy_damage

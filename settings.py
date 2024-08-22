@@ -31,6 +31,7 @@ enemy_health = 20
 enemy_speed = 3
 boss_health_multiplier = 3  # multiplied by current enemy health
 boss_speed = 2
+enemy_speed_change = 0
 enemy_damage = 20
 knockback = 10
 boss_message_duration = 3000
@@ -42,3 +43,7 @@ bullet_speed = 10
 # Ustawienia przedmiotów
 time_to_pickup = 30000
 blinking_time = 5000
+
+potion_chance = 0.6
+boost_chance = 0.15
+no_drop_chance = 0.1

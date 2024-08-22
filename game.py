@@ -36,6 +36,7 @@ def start():
     kills_count = 0
 
     enemy_health = settings.enemy_health
+    enemy_speed_change = settings.enemy_speed_change
 
     running = True
     paused = False
@@ -106,16 +107,17 @@ def start():
                     if hit_enemy.health <= 0:
                         # Jeśli zabiliśmy bossa, wypada losowy przedmiot
                         if hit_enemy.color == settings.BLACK:
-                            boost_type = random.choices(['potion', 'damage', 'health'], [0.9, 0.05, 0.05])
-                            if boost_type == 'potion':
+                            boost_type = random.choices(['none', 'potion', 'damage', 'health'],
+                        [settings.no_drop_chance, settings.potion_chance, settings.boost_chance, settings.boost_chance])
+                            if boost_type[0] == 'potion':
                                 potion = HealthPotion(hit_enemy.rect.centerx, hit_enemy.rect.centery)
                                 all_sprites.add(potion)
                                 boosts.add(potion)
-                            if boost_type == 'damage':
+                            if boost_type[0] == 'damage':
                                 damage_boost = DamageBoost(hit_enemy.rect.centerx, hit_enemy.rect.centery)
                                 all_sprites.add(damage_boost)
                                 boosts.add(damage_boost)
-                            if boost_type == 'health':
+                            if boost_type[0] == 'health':
                                 damage_boost = HealthBoost(hit_enemy.rect.centerx, hit_enemy.rect.centery)
                                 all_sprites.add(damage_boost)
                                 boosts.add(damage_boost)
@@ -199,7 +201,7 @@ def start():
             # Sprawdzenie, czy należy rozpocząć nową falę
             if waiting_for_next_wave and pygame.time.get_ticks() - wave_start_ticks >= 5000:
                 waiting_for_next_wave = False
-                generate_wave(wave_number, enemy_health)
+                generate_wave(wave_number, enemy_health, enemy_speed_change)
                 if game_start_time is None:  # Ustawienie czasu rozpoczęcia gry przy pierwszej fali
                     game_start_time = pygame.time.get_ticks()
 
@@ -210,6 +212,8 @@ def start():
                 wave_start_ticks = pygame.time.get_ticks()
                 if wave_number % 5 == 1 and wave_number != 1:
                     enemy_health += 10  # Zwiększenie zdrowia przeciwników po falach z bossami
+                if wave_number % 15 == 1 and wave_number != 1:
+                    enemy_speed_change += 1 # Zwiększenie prędkości przeciwników po falach z dwoma bossami
 
             # Sprawdzanie, czy gracz umarł
             if player.health <= 0:
@@ -253,17 +257,19 @@ def draw_enemy_health_bar(enemy):
 
 
 # Funkcja generująca falę przeciwników
-def generate_wave(wave_number, health):
+def generate_wave(wave_number, health, speed_change):
     global boss_message_start_time
-    num_enemies = wave_number * 2
-    if wave_number % 5 == 0:
-        num_enemies += wave_number // 5  # Dodanie BOSSów
+    num_enemies = wave_number
+    if wave_number % 5 == 0:  # Dodanie BOSSów
+        num_enemies += 1
+    if wave_number % 10 == 0:
+        num_enemies += 1
     for i in range(num_enemies):
-        is_boss = (i >= wave_number * 2)  # Jeśli to boss, to mamy więcej przeciwników niż numer fali
-        health = health * settings.boss_health_multiplier if is_boss else health
+        is_boss = (i >= wave_number)  # Jeśli to boss, to mamy więcej przeciwników niż numer fali
+        health = (health * settings.boss_health_multiplier) if is_boss else health
         x = random.choice([random.randint(-100, 0), random.randint(settings.MAP_WIDTH, settings.MAP_WIDTH + 100)])
         y = random.choice([random.randint(-100, 0), random.randint(settings.MAP_HEIGHT, settings.MAP_HEIGHT + 100)])
-        enemy = Enemy(x, y, health, is_boss)
+        enemy = Enemy(x, y, health, speed_change, is_boss)
         all_sprites.add(enemy)
         enemies.add(enemy)
 
