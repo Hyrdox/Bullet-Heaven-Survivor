@@ -7,9 +7,9 @@ from database import get_scores, send_score, reformat_data
 
 
 def show(kills, wave, minutes, seconds):
-    font_title = pygame.font.Font('data/8514fixe.fon', 74)
-    font_text = pygame.font.Font('data/8514fixe.fon', 40)
-    font_button = pygame.font.Font('data/8514fixe.fon', 50)
+    font_title = pygame.font.Font(settings.font, 74)
+    font_text = pygame.font.Font(settings.font, 40)
+    font_button = pygame.font.Font(settings.font, 50)
 
     scores = reformat_data(get_scores())
     if len(scores) != 0:
@@ -58,7 +58,7 @@ def show(kills, wave, minutes, seconds):
 
             pygame.display.flip()
     else:
-        font_input = pygame.font.Font('data/8514fixe.fon', 50)
+        font_input = pygame.font.Font(settings.font, 50)
         nickname = ""
 
         # Obliczanie zajętego przez gracza miejsca
@@ -73,7 +73,6 @@ def show(kills, wave, minutes, seconds):
                     break
             else:
                 placement += 1
-
 
         while True:
             settings.screen.fill(settings.BLACK)

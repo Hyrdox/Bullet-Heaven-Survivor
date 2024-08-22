@@ -1,8 +1,10 @@
+import requests
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-cred = credentials.Certificate("data/cert.json")
+cert_url = "https://firebasestorage.googleapis.com/v0/b/bullet-heaven-survivor.appspot.com/o/cert.json?alt=media&token=3b222df6-150e-43ed-99d2-b84b69405e30"
+cred = credentials.Certificate(requests.get(cert_url).json())
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()

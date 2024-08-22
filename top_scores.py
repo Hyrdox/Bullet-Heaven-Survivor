@@ -6,9 +6,9 @@ from database import get_scores, reformat_data
 
 
 def top_scores():
-    font_title = pygame.font.Font('data/8514fixe.fon', 74)
-    font_score = pygame.font.Font('data/8514fixe.fon', 40)
-    font_button = pygame.font.Font('data/8514fixe.fon', 50)
+    font_title = pygame.font.Font(settings.font, 74)
+    font_score = pygame.font.Font(settings.font, 40)
+    font_button = pygame.font.Font(settings.font, 50)
 
     scores = reformat_data(get_scores())
 

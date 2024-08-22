@@ -4,6 +4,10 @@ import pygame
 SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Bullet Heaven Survivor")
+programIcon = pygame.image.load('data/icon.webp')
+pygame.display.set_icon(programIcon)
+
+font = 'data/8514fixe.fon'
 
 # Ustawienia mapy
 MAP_WIDTH, MAP_HEIGHT = 1600, 1200
