@@ -77,7 +77,8 @@ def how_to_play():
 
         # Przycisk "Main menu"
         button_main_menu = pygame.Rect(settings.SCREEN_WIDTH // 2 - int(125 * settings.w_scale),
-                                       settings.SCREEN_HEIGHT - ((settings.SCREEN_HEIGHT // 9) + int(25 * settings.h_scale)), int(250 * settings.w_scale), int(50 * settings.h_scale))
+                                       settings.SCREEN_HEIGHT - ((
+                                                                             settings.SCREEN_HEIGHT // 9) + int(25 * settings.h_scale)), int(250 * settings.w_scale), int(50 * settings.h_scale))
         pygame.draw.rect(settings.screen, settings.GREY, button_main_menu)
         main_menu.draw_text('Main menu', font_button, settings.BLACK, settings.screen, settings.SCREEN_WIDTH // 2,
                             settings.SCREEN_HEIGHT - (settings.SCREEN_HEIGHT // 9))
@@ -159,7 +160,8 @@ def draw_text(text, font, color, x, y):
 
 def draw_mouse():
     # Wyświetlanie obrazu myszy
-    mouse_rect = mouse_image.get_rect(center=(settings.SCREEN_WIDTH // 9 * 8, settings.SCREEN_HEIGHT // 7 + int(200 * settings.h_scale)))
+    mouse_rect = mouse_image.get_rect(center=(
+    settings.SCREEN_WIDTH // 9 * 8, settings.SCREEN_HEIGHT // 7 + int(200 * settings.h_scale)))
     settings.screen.blit(mouse_image, mouse_rect)
     draw_text('SHOOT', pygame.font.Font(io.BytesIO(settings.font), int(15 * settings.h_scale)), settings.GREY,
               settings.SCREEN_WIDTH // 9 * 8 - int(50 * settings.w_scale), settings.SCREEN_HEIGHT // 7 + int(175 * settings.h_scale))

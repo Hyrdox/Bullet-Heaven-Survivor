@@ -200,7 +200,8 @@ def start():
                               int(player.damage * 3 * settings.w_scale),
                               16))
             damage_text = font.render(f"{player.damage} DAMAGE", True, settings.BLACK)
-            settings.screen.blit(damage_text, (int(((settings.player_damage_limit * 1.5 + 10) - damage_text.get_width() // 2 - 1) * settings.w_scale), settings.SCREEN_HEIGHT - int(87 * settings.h_scale)))
+            settings.screen.blit(damage_text, (int(((
+                                                                settings.player_damage_limit * 1.5 + 10) - damage_text.get_width() // 2 - 1) * settings.w_scale), settings.SCREEN_HEIGHT - int(87 * settings.h_scale)))
 
             # Pasek szybkości gracza
             pygame.draw.rect(settings.screen, settings.BLACK,
@@ -209,10 +210,12 @@ def start():
                               20), 2)
             pygame.draw.rect(settings.screen, settings.YELLOW,
                              (12, settings.SCREEN_HEIGHT - int(58 * settings.h_scale),
-                              int((((settings.player_damage_limit * 3) / settings.player_speed_limit) * player.speed) * settings.w_scale),
+                              int((((
+                                                settings.player_damage_limit * 3) / settings.player_speed_limit) * player.speed) * settings.w_scale),
                               16))
             speed_text = font.render(f"{player.speed} SPEED", True, settings.BLACK)
-            settings.screen.blit(speed_text, (int(((settings.player_damage_limit * 1.5 + 10) - speed_text.get_width() // 2) * settings.w_scale), settings.SCREEN_HEIGHT - int(57 * settings.h_scale)))
+            settings.screen.blit(speed_text, (int(((
+                                                               settings.player_damage_limit * 1.5 + 10) - speed_text.get_width() // 2) * settings.w_scale), settings.SCREEN_HEIGHT - int(57 * settings.h_scale)))
 
             # Pasek zdrowia gracza
             pygame.draw.rect(settings.screen, settings.BLACK,
@@ -242,10 +245,12 @@ def start():
             if game_start_time:
                 elapsed_time = (pygame.time.get_ticks() - game_start_time) // 1000
                 time_text = font.render(f"Time: {elapsed_time // 60}:{elapsed_time % 60:02d}", True, settings.BLACK)
-                settings.screen.blit(time_text, (settings.SCREEN_WIDTH - time_text.get_width() - 5, int(10 * settings.h_scale)))
+                settings.screen.blit(time_text, (
+                settings.SCREEN_WIDTH - time_text.get_width() - 5, int(10 * settings.h_scale)))
 
                 kills_text = font.render(f'Kills: {kills_count}', True, settings.BLACK)
-                settings.screen.blit(kills_text, (settings.SCREEN_WIDTH - kills_text.get_width() - 5, int(40 * settings.h_scale)))
+                settings.screen.blit(kills_text, (
+                settings.SCREEN_WIDTH - kills_text.get_width() - 5, int(40 * settings.h_scale)))
 
             # Wyświetlanie komunikatu "BOSS incoming!"
             if boss_message_start_time:
@@ -258,7 +263,8 @@ def start():
                         boss_text = pygame.font.Font(io.BytesIO(settings.font), int(60 * settings.h_scale)).render(
                             "BOSS INCOMING!",
                             True, settings.RED)
-                        settings.screen.blit(boss_text, (settings.SCREEN_WIDTH // 2 - boss_text.get_width() // 2, int(110 * settings.h_scale)))
+                        settings.screen.blit(boss_text, (
+                        settings.SCREEN_WIDTH // 2 - boss_text.get_width() // 2, int(110 * settings.h_scale)))
                 else:
                     boss_message_start_time = None
 
@@ -269,7 +275,8 @@ def start():
                     more_speed_text = pygame.font.Font(io.BytesIO(settings.font), int(40 * settings.h_scale)).render(
                         "Enemy speed increased",
                         True, settings.YELLOW)
-                    settings.screen.blit(more_speed_text, (settings.SCREEN_WIDTH // 2 - more_speed_text.get_width() // 2, int(110 * settings.h_scale)))
+                    settings.screen.blit(more_speed_text, (
+                    settings.SCREEN_WIDTH // 2 - more_speed_text.get_width() // 2, int(110 * settings.h_scale)))
                 else:
                     boss_message_start_time = None
 

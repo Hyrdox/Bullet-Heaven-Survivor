@@ -3,17 +3,14 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-cert_url = "<<Certificate URL>>" # !!
+cert_url = "" # ! ! !
 cred = credentials.Certificate(requests.get(cert_url).json())
 firebase_admin.initialize_app(cred)
-
 db = firestore.client()
-scores_collection = 'scoresCollection'
-queue = 'queueCollection'
 
 
 def get_scores():
-    docs = db.collection(scores_collection).stream()
+    docs = db.collection('scoresCollection').stream()
 
     all_docs_data = []
     for doc in docs:
@@ -38,7 +35,7 @@ def send_score(nickname, kills, wave, minutes, seconds):
     sorted_scores = sorted(all_scores, key=lambda x: (-x[1], x[3]*60 + x[4]))
 
     for i in range(len(sorted_scores) - 1):
-        db.collection(scores_collection).document(str(i)).set({
+        db.collection('scoresCollection').document(str(i)).set({
             'nickname': sorted_scores[i][0],
             'kills': sorted_scores[i][1],
             'wave': sorted_scores[i][2],

@@ -11,13 +11,11 @@ game_title = "Endless Wave Runner"
 pygame.display.set_caption(game_title)
 
 # Ikona gry
-icon_url = ("https://firebasestorage.googleapis.com/v0/b/bullet-heaven-survivor.appspot.com/o/icon.webp?alt=media"
-            "&token=646bdbfe-d02b-4edc-bab3-50719ff1599f")
+icon_url = "https://firebasestorage.googleapis.com/v0/b/endless-wave-runner.appspot.com/o/icon.webp?alt=media&token=86abe24a-9369-4ac9-8435-a99a76344f59"
 programIcon = None
 
 # Czcionka
-font_url = ("https://firebasestorage.googleapis.com/v0/b/bullet-heaven-survivor.appspot.com/o/8514fixe.ttf?alt=media"
-            "&token=0b1d4838-55b9-41ba-af3b-86aeb7fc3191")
+font_url = "https://firebasestorage.googleapis.com/v0/b/endless-wave-runner.appspot.com/o/8514fixe.ttf?alt=media&token=6df9d68d-0299-47da-bc4f-ad2cd5f7131e"
 font = None
 
 # Skalowanie elementów gry
@@ -25,8 +23,7 @@ w_scale = SCREEN_WIDTH / 1920
 h_scale = SCREEN_HEIGHT / 1080
 
 # PNG myszki w How to play
-mouse_png_url = ("https://firebasestorage.googleapis.com/v0/b/bullet-heaven-survivor.appspot.com/o/mouse.png?alt=media"
-                 "&token=1eab223d-6603-4472-9c97-7ee84077929c")
+mouse_png_url = "https://firebasestorage.googleapis.com/v0/b/endless-wave-runner.appspot.com/o/mouse.png?alt=media&token=46763929-632f-442b-a16b-4b63ef17e1b5"
 
 # Ustawienia mapy
 MAP_WIDTH, MAP_HEIGHT = 3000, 2000
